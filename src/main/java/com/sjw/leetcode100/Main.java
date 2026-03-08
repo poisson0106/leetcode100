@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        Class<?> c = Class.forName("com.sjw.leetcode100.cases.WordBreak");
+        Class<?> c = Class.forName("com.sjw.leetcode100.cases.ArrayCanPartition");
         Method method = c.getMethod("run");
         method.invoke(c.getDeclaredConstructor().newInstance());
     }
