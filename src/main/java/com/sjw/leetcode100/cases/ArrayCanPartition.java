@@ -19,33 +19,20 @@ public class ArrayCanPartition implements BaseCase {
         }
 
         int target = sum / 2;
-        // Create memoization cache: memo[pos][target]
-        // Use Integer to distinguish between uncomputed (null), true, and false
-        Integer[][] memo = new Integer[nums.length][target + 1];
-        return f(nums, 0, target, memo);
-    }
-
-    private boolean f(int[] nums, int pos, int target, Integer[][] memo) {
-        if (target < 0)
-            return false;
-
-        if (pos >= nums.length) {
-            return target == 0;
+        
+        // Use 1D DP array for better performance
+        // dp[i] represents whether sum i can be achieved
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true; // sum 0 is always achievable (empty subset)
+        
+        // Process each number
+        for (int num : nums) {
+            // Traverse backwards to avoid using updated values in same iteration
+            for (int j = target; j >= num; j--) {
+                dp[j] = dp[j] || dp[j - num];
+            }
         }
-
-        // Check if result is already computed
-        if (memo[pos][target] != null) {
-            return memo[pos][target] == 1;
-        }
-
-        boolean useThisOne = f(nums, pos + 1, target - nums[pos], memo);
-        boolean notUseThisOne = f(nums, pos + 1, target, memo);
         
-        boolean result = useThisOne || notUseThisOne;
-        
-        // Store result in memo: 1 for true, 0 for false
-        memo[pos][target] = result ? 1 : 0;
-        
-        return result;
+        return dp[target];
     }
 }
